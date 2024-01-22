@@ -3,9 +3,12 @@ from django.conf.urls.static import static
 from django.conf import settings
 from MainApp import views
 
+
 urlpatterns = [
-    path('', views.index_page, name='index-page'),
-    path('snippets/add', views.add_snippet_page, name='add-snippet'),
-    path('snippets/list', views.snippets_page, name='view-snippet'),
-    path('snippets/<int:snippet_id>/', views.snippet_detail, name='snippet_detail')
+    path('', views.index_page, name='home'),
+    path('snippets/add', views.add_snippet_page, name="snippets-add"),
+    path('snippets/list', views.snippets_page, name='snippets-list'),
+    path('snippet/<int:snippet_id>', views.snippet_detail, name='snippet-detail'),
+     path('snippet/<int:snippet_id>/delete/', views.delete_snippet, name='delete_snippet'),
+    # path('snippet/create', views.create_snippet, name='create-snippet')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
