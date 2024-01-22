@@ -67,4 +67,4 @@ def delete_snippet(request, snippet_id):
     snippet = get_object_or_404(Snippet, pk=snippet_id)
     if request.method == 'POST':
         snippet.delete()
-        return redirect('snippets/list')  
+        return redirect('snippets-list')  
