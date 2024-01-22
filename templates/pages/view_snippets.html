@@ -37,7 +37,11 @@
                             <td scope="row">{{ snippet.id }}</td>
                             <td><a href="{% url "snippet-detail" snippet.id %}">{{ snippet.name }}</a></td>
                             <td>{{ snippet.creation_date }}</td>
-                            <td><a href="{% url 'delete_snippet' snippet.id %}">Удалить</a></td>0
+                            <td><form action="{% url 'delete_snippet' snippet.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Delete snippet">
+                            </form>
+                        </td>
                         </tr>
                     {% endfor %}
                 </tbody>
