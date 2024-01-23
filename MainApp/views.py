@@ -107,6 +107,11 @@ def logout(request):
     return redirect('home')
 
 
+
+def my_snippets(request):
+    snippets = Snippet.objects.filter(user=request.user)
+    return render(request, 'pages/my_snippets.html', {'snippets': snippets})
+
 # def create_snippet(request):
 #     if request.method == "POST":
 #         form = SnippetForm(request.POST)
