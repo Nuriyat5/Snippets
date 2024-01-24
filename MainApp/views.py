@@ -1,6 +1,6 @@
 from django.http import Http404, HttpResponseNotFound
-from django.shortcuts import render, redirect
-from MainApp.forms import SnippetForm, UserRegistrationForm
+from django.shortcuts import get_object_or_404, render, redirect
+from MainApp.forms import CommentForm, SnippetForm, UserRegistrationForm
 from MainApp.models import Snippet
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import auth
@@ -49,6 +49,7 @@ def snippets_page(request):
     context = { 
         'pagename': 'Просмотр сниппетов',
         "snippets": snippets,
+        "amount": snippets.count(),
         }
     return render(request, 'pages/view_snippets.html', context)
 
@@ -118,6 +119,18 @@ def create_user(request):
             return redirect('home')
         context['form'] = form
         return render(request, "pages/registration.html", context)
+    
+
+def comment_add(request, snippet_id):
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            comment.snippet = Snippet.objects.get(id=snippet_id)
+            comment.save()
+        return redirect('pages/snippet_detail', snippet_id=snippet_id)
+    raise Http404    
 
 
 def login(request):
@@ -142,9 +155,11 @@ def login(request):
     return redirect('home')
 
 
+
 def logout(request):
     auth.logout(request)
     return redirect('home')
+
 
 
 

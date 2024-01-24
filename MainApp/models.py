@@ -19,3 +19,12 @@ class Snippet(models.Model):
 
     def __repr__(self) -> str:
         return f'Snippet({self.name})'
+    
+
+
+
+class Comment(models.Model):
+    text = models.TextField()
+    creation_date = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    snippet = models.ForeignKey(Snippet, on_delete=models.CASCADE)
